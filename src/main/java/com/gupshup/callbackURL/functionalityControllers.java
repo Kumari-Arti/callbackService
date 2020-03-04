@@ -1,9 +1,13 @@
 package com.gupshup.callbackURL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class functionalityControllers {
@@ -19,10 +23,8 @@ public class functionalityControllers {
 	 * Callback callback) { CallbackService.addCallback(callback); }
 	 */
 
-	
 	@Autowired
 	private CallbackService callbackService;
-	
 
 	@GetMapping(value = CONTEXT)
 
@@ -34,14 +36,20 @@ public class functionalityControllers {
 	@PostMapping(value = CONTEXT)
 
 	@ResponseBody
-	public CallbackReply storeCallback(@RequestBody Callback callback) {
+	public CallbackReply storeCallback(@RequestBody Callback callback, HttpServletRequest httpRequest) {
+
+		System.out.println("callback" +callback);
+		System.out.println("httprequest" +httpRequest);
 		CallbackReply callreply = new CallbackReply();
 		CallbackService.getInstance().addCallback(callback);
+		
+		  callreply.setRequestId(callback.getRequestId());
+		  callreply.setRequestPayload(callback.getRequestPayload());
 
-		callback.setRequestId(callback.getRequestId());
-		callback.setRequestPayload(callback.getRequestPayload());
+		callreply.setId(1);
 
 		return callreply;
-
+	
 	}
+
 }

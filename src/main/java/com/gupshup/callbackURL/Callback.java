@@ -2,14 +2,14 @@ package com.gupshup.callbackURL;
 
 public class Callback {
 
-	private int requestId;
+	private String requestId;
 	private String requestPayload;
 
-	public int getRequestId() {
+	public String getRequestId() {
 		return requestId;
 	}
 
-	public void setRequestId(int requestId) {
+	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
 

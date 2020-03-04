@@ -2,15 +2,15 @@ package com.gupshup.callbackURL;
 
 public class CallbackReply {
 	
-	private static int requestId;
+	private static int id;
 	private String requestPayload;
-	private String id;
+	private String requestId;
 	
-	public static int getRequestId() {
-		return requestId;
+	public static int getId() {
+		return id;
 	}
-	public static void setRequestId(int requestId) {
-		CallbackReply.requestId = requestId;
+	public static void setId(int id) {
+		CallbackReply.id = id;
 	}
 	public String getRequestPayload() {
 		return requestPayload;
@@ -18,11 +18,12 @@ public class CallbackReply {
 	public void setRequestPayload(String requestPayload) {
 		this.requestPayload = requestPayload;
 	}
-	public String getId() {
-		return id;
+	public String getRequestId() {
+		return requestId;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}	
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
+	}
+
 
 }
