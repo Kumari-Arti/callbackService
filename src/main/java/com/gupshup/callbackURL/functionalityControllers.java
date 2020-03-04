@@ -1,18 +1,33 @@
 package com.gupshup.callbackURL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+ 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
+import java.util.logging.Level; 
+
+
 @RestController
 public class functionalityControllers {
 
 	private final String CONTEXT = "/api/v1/callbackURL";
+	private static final Logger LOGGER=LoggerFactory.getLogger(CallbackUrlApplication.class);
 
 	/*
 	 * @GetMapping(value = CONTEXT) public String greeting(){ return "Hello"; }
@@ -36,20 +51,35 @@ public class functionalityControllers {
 	@PostMapping(value = CONTEXT)
 
 	@ResponseBody
-	public CallbackReply storeCallback(@RequestBody Callback callback, HttpServletRequest httpRequest) {
+	public CallbackReply storeCallback(@RequestBody String callback, HttpServletRequest httpRequest) {
 
-		System.out.println("callback" +callback);
-		System.out.println("httprequest" +httpRequest);
-		CallbackReply callreply = new CallbackReply();
-		CallbackService.getInstance().addCallback(callback);
+		LOGGER.info("----log request---",httpRequest); 
 		
-		  callreply.setRequestId(callback.getRequestId());
-		  callreply.setRequestPayload(callback.getRequestPayload());
+		Enumeration<String> headers = httpRequest.getHeaderNames();
+			
+        while (headers.hasMoreElements()) {
+        	 
+        	LOGGER.info(headers.nextElement());
+        	
+        	
+            }
 
-		callreply.setId(1);
+		CallbackReply callreply = new CallbackReply();
+		
+		callreply.setRequestPayload(callback);
+				
+		/*
+		 * CallbackService.getInstance().addCallback(callback);
+		 * 
+		 * callreply.setRequestId(callback.getRequestId());
+		 * callreply.setRequestPayload(callback.getRequestPayload());
+		 * 
+		 * callreply.setId(1);
+		 */
 
 		return callreply;
-	
 	}
 
 }
+
+
