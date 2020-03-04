@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.logging.Level;
 
 @RestController
-public class functionalityControllers {
+public class CallbackController {
 
 	private final String CONTEXT = "/api/v1/callbackURL";
 	private static final Logger LOGGER = LoggerFactory.getLogger(CallbackUrlApplication.class);
@@ -43,35 +43,33 @@ public class functionalityControllers {
 	@Autowired
 	private CallbackService callbackService;
 
-	@GetMapping(value = CONTEXT)
+	/*
+	 * @GetMapping(value = CONTEXT)
+	 * 
+	 * @ResponseBody public List<Callback> getCallbacks() { return
+	 * CallbackService.getInstance().getCallback(); }
+	 */
 
+	@RequestMapping(value = CONTEXT)
 	@ResponseBody
-	public List<Callback> getCallbacks() {
-		return CallbackService.getInstance().getCallback();
-	}
-
-	@PostMapping(value = CONTEXT)
-
-	@ResponseBody
-	public Callback storeCallback(@RequestBody String callback, HttpServletRequest httpRequest) {
+	public Callback storeCallback(@RequestBody(required = false) String callback, HttpServletRequest httpRequest) {
 
 		LOGGER.info("----log request---", httpRequest);
-		
+
 		Callback callresponse = new Callback();
 
 		Enumeration<String> headers = httpRequest.getHeaderNames();
-		
+
+		callresponse.setRequestType(httpRequest.getMethod());
+
 		while (headers.hasMoreElements()) {
-				String header = (headers.nextElement());
-				LOGGER.info(headers.nextElement());
-			    callresponse.getHeaders().put(header, httpRequest.getHeader(header));
-		
+			String header = (headers.nextElement());
+			callresponse.getHeaders().put(header, httpRequest.getHeader(header));
+
 		}
 
-		
-
 		callresponse.setRequestPayload(callback);
-	
+
 		callbackRepository.save(callresponse);
 		/*
 		 * CallbackService.getInstance().addCallback(callback);
