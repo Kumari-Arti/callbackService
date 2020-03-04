@@ -16,18 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
- 
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.logging.Level; 
-
+import java.util.logging.Level;
 
 @RestController
 public class functionalityControllers {
 
 	private final String CONTEXT = "/api/v1/callbackURL";
-	private static final Logger LOGGER=LoggerFactory.getLogger(CallbackUrlApplication.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CallbackUrlApplication.class);
+
+	@Autowired
+	private CallbackRepository callbackRepository;
 
 	/*
 	 * @GetMapping(value = CONTEXT) public String greeting(){ return "Hello"; }
@@ -51,23 +53,26 @@ public class functionalityControllers {
 	@PostMapping(value = CONTEXT)
 
 	@ResponseBody
-	public CallbackReply storeCallback(@RequestBody String callback, HttpServletRequest httpRequest) {
+	public Callback storeCallback(@RequestBody String callback, HttpServletRequest httpRequest) {
 
-		LOGGER.info("----log request---",httpRequest); 
+		LOGGER.info("----log request---", httpRequest);
 		
+		Callback callresponse = new Callback();
+
 		Enumeration<String> headers = httpRequest.getHeaderNames();
-			
-        while (headers.hasMoreElements()) {
-        	 
-        	LOGGER.info(headers.nextElement());
-        	
-        	
-            }
-
-		CallbackReply callreply = new CallbackReply();
 		
-		callreply.setRequestPayload(callback);
-				
+		while (headers.hasMoreElements()) {
+				String header = (headers.nextElement());
+				LOGGER.info(headers.nextElement());
+			    callresponse.getHeaders().put(header, httpRequest.getHeader(header));
+		
+		}
+
+		
+
+		callresponse.setRequestPayload(callback);
+	
+		callbackRepository.save(callresponse);
 		/*
 		 * CallbackService.getInstance().addCallback(callback);
 		 * 
@@ -77,9 +82,7 @@ public class functionalityControllers {
 		 * callreply.setId(1);
 		 */
 
-		return callreply;
+		return callresponse;
 	}
 
 }
-
-
