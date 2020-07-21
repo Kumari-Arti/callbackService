@@ -1,0 +1,7 @@
+io/gupshup/callbackService/controller/CallbackController.class
+io/gupshup/callbackService/repository/CallbackRepository.class
+io/gupshup/callbackService/Exceptionhandler/ResourceNotFoundException.class
+io/gupshup/callbackService/controller/RequestController.class
+io/gupshup/callbackService/service/CallbackService.class
+io/gupshup/callbackService/model/Callback.class
+io/gupshup/callbackService/CallbackServiceApplication.class

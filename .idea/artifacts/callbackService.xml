@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="callbackService">
+    <output-path>$PROJECT_DIR$/out/artifacts/callbackService</output-path>
+    <root id="root">
+      <element id="archive" name="callbackService.jar">
+        <element id="module-output" name="callbackService" />
+      </element>
+    </root>
+  </artifact>
+</component>
